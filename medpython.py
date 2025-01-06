@@ -1,40 +1,30 @@
-import requests
+import subprocess
+
+def run_curl_command(command):
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode == 0:
+        print("Command executed successfully.")
+        print("Output:", result.stdout)
+    else:
+        print("Error executing command.")
+        print("Error:", result.stderr)
 
 def get_request():
-    url = "https://jsonplaceholder.typicode.com/posts"
-    response = requests.get(url)
-    print("GET Request")
-    print("Status Code:", response.status_code)
-    print("Response JSON:", response.json()[:2])  
-    print("-" * 50)
+    curl_command = ["curl", "-X", "GET", "https://httpbin.org/get"]
+    run_curl_command(curl_command)
 
 def post_request():
-    url = "https://jsonplaceholder.typicode.com/posts"
-    data = {"title": "foo", "body": "bar", "userId": 1}
-    response = requests.post(url, json=data)
-    print("POST Request")
-    print("Status Code:", response.status_code)
-    print("Response JSON:", response.json())
-    print("-" * 50)
+    curl_command = ["curl", "-X", "POST", "-d", "key=value", "https://httpbin.org/post"]
+    run_curl_command(curl_command)
 
 def put_request():
-    url = "https://jsonplaceholder.typicode.com/posts/1"
-    data = {"id": 1, "title": "updated title", "body": "updated body", "userId": 1}
-    response = requests.put(url, json=data)
-    print("PUT Request")
-    print("Status Code:", response.status_code)
-    print("Response JSON:", response.json())
-    print("-" * 50)
+    curl_command = ["curl", "-X", "PUT", "-d", "key=value", "https://httpbin.org/put"]
+    run_curl_command(curl_command)
 
 def delete_request():
-    url = "https://jsonplaceholder.typicode.com/posts/1"
-    response = requests.delete(url)
-    print("DELETE Request")
-    print("Status Code:", response.status_code)
-    print("Response Text:", response.text)
-    print("-" * 50)
+    curl_command = ["curl", "-X", "DELETE", "https://httpbin.org/delete"]
+    run_curl_command(curl_command)
 
-# Example usage
 if __name__ == "__main__":
     get_request()
     post_request()
